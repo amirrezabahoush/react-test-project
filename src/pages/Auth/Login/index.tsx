@@ -6,7 +6,7 @@ import { LoginValues } from "./Login.props";
 import Regex from "utils/regex";
 import AuthForm from "components/AuthForm";
 import AuthPureForm from "components/AuthForm/authPureForm";
-import ConfigContext from "utils/configContext";
+import ConfigContext from "context/configContext";
 import { StyledWrapper,StyledLabel,StyledInput} from "./PureForm.styled";
 
 

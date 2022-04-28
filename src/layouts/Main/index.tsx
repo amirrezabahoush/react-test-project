@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { StyledContent } from "./Main.styled";
-import { UserProvider } from "utils/userContext";
+import { UserProvider } from "context/userContext";
 import { UserTypes } from "pages/Users/Users.types";
 
 const { Header, Footer } = Layout;

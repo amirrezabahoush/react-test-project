@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Typography, Row, Col } from "antd";
 import { StyledCard } from "./profile.styled";
-import UserContext from "utils/userContext";
+import UserContext from "context/userContext";
 import { USER_ROLES_PERSIAN } from "types/User";
 import { dateToPersian } from "utils/helpers";
 

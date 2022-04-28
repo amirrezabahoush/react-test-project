@@ -1,6 +1,6 @@
 import { PrivateRoutes, AuthRoutes } from "routes";
 import { useRoutes } from 'react-router-dom';
-import { ConfigContextProvider } from 'utils/configContext';
+import { ConfigContextProvider } from 'context/configContext';
 import { Switch } from "antd";
 import { useState } from "react";
 
