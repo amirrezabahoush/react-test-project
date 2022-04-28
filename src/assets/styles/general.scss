@@ -1,0 +1,229 @@
+@import '~antd/dist/antd.css';
+
+@viewport {
+  width: device-width;
+}
+
+@viewport {
+  zoom: 0.75;
+  min-zoom: 0.5;
+  max-zoom: 0.9;
+}
+
+@font-face {
+  font-family: "Dana-FaNum-Regular";
+  src: url("../fonts/Dana-FaNum-Regular.ttf");
+}
+
+// CSS Resets
+
+html {
+  scroll-behavior: smooth;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+
+  body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    min-height: 100%;
+    overflow-x: hidden;
+    font-size: 14px;
+    background: transparent url('./../images/2314950.jpg') no-repeat center;
+
+    &::after {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      content: '';
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+    }
+
+    * {
+      padding: 0;
+      outline: none;
+      font-size: 14px;
+      font-family: "Dana-FaNum-Regular";
+      position: relative;
+    }
+  }
+}
+
+body[dir="rtl"] {
+  * {
+    direction: rtl;
+  }
+}
+
+.clear {
+  width: 0;
+  height: 0;
+  display: block;
+  clear: both;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: ".";
+  display: block;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  font-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+em,
+strong,
+i,
+address,
+b {
+  font-weight: normal;
+  margin: 0;
+  font-style: normal;
+}
+
+p {
+  margin: 0;
+}
+
+a,
+a:hover {
+  text-decoration: none !important;
+}
+
+dl,
+ol,
+ul {
+  list-style: none;
+  margin: 0;
+}
+
+a,
+i {
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+//directions
+.rtl {
+  direction: rtl !important;
+}
+
+.ltr {
+  direction: ltr !important;
+}
+
+//spaces
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mb-1 {
+  margin-bottom: 8px;
+}
+
+.mr-1 {
+  margin-right: 8px;
+}
+
+.ml-1 {
+  margin-left: 8px;
+}
+
+.my-1 {
+  margin: 8px 0px;
+}
+
+.mt-2 {
+  margin-top: 16px !important;
+}
+
+.mt-1 {
+  margin-top: 8px;
+}
+
+.mx-auto {
+  margin: 0 auto;
+}
+
+//sizes
+.h-100 {
+  height: 100vh;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+//displays
+.d-flex {
+  display: flex;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+//texts
+.text-center {
+  text-align: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+.page-title{
+  font-size: 16px !important;
+}
+
+.form-wrapper {
+  text-align: right;
+
+  input {
+    width: 100%;
+    border-radius: 3px;
+  }
+
+  .ant-form-item-label {
+    padding: 0;
+    direction: rtl;
+    text-align: right;
+  }
+
+  .ant-input-group-addon {
+    .ant-btn {
+      border: 0;
+      padding: 0;
+      height: 30px;
+    }
+  }
+
+  .bg-transparent {
+    background-color: transparent;
+  }
+}
+
+.component-switcher {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+}
