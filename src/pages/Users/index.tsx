@@ -17,6 +17,7 @@ import { dateToPersian } from "utils/helpers";
 import AddOrUpdateUser from "./Add";
 import Notification from "components/Notification";
 import DeleteUser from "./Delete";
+import { UserRoleTypes, USER_ROLES_PERSIAN } from "../../types/User";
 
 const Users: React.FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
@@ -149,6 +150,7 @@ const Users: React.FC = () => {
 			key: "role",
 			dataIndex: "role",
 			title: "نقش",
+			render: (item: UserRoleTypes) => USER_ROLES_PERSIAN[item]
 		},
 		{
 			key: "action",

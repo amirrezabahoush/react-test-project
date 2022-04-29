@@ -12,7 +12,6 @@ import { AddUserProps } from "./Add.props";
 const AddOrUpdateUser: React.FC<AddUserProps> = (props) => {
 
   useEffect(() => {
-    console.log(props.form, props.selected)
     if(props.selected) {
       props.form.current.setFieldsValue(props.selected);
     }
@@ -47,7 +46,7 @@ const AddOrUpdateUser: React.FC<AddUserProps> = (props) => {
           <Input />
         </Form.Item>
         <Form.Item name="deletable" label="قابلیت حذف">
-          <Switch />
+          <Switch defaultChecked={props.selected?.deletable || false} />
         </Form.Item>
         <Row justify="end">
           <Button type="primary" htmlType="submit" data-testid={props.type} loading={false}>

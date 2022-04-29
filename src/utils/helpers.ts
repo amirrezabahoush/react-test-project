@@ -1,11 +1,3 @@
-export const sleep = (milliseconds: number) => {
-	const date = Date.now();
-	let currentDate = null;
-	do {
-		currentDate = Date.now();
-	} while (currentDate - date < milliseconds);
-};
-
 export const setCookie = (cName: string, cValue: string, expireTime: number) => {
 	const currentTimestamp = new Date().getTime();
 	const expireDate = new Date(currentTimestamp + expireTime).toUTCString();
