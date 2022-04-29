@@ -1,18 +1,24 @@
 import React, { useState } from "react";
-import { Form, Input } from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Button, Form, Input } from "antd";
+import { useNavigate } from "react-router-dom";
 import Notification from "components/Notification";
 import { LoginValues } from "./Login.props";
-import AuthForm from "components/AuthForm/AntdForm";
-import AuthPureForm from "components/AuthForm/PureForm";
-import { StyledWrapper,StyledLabel,StyledInput} from "./Login.styled";
+import AuthForm from "pages/Login/AuthForm/AntdForm";
+import AuthPureForm from "pages/Login/AuthForm/PureForm";
+import { StyledWrapper,StyledLabel,StyledInput,StyledButton} from "./Login.styled";
 import { setCookie } from "utils/helpers";
 import { Switch } from "antd";
+import { EyeOutlined, EyeInvisibleOutlined} from "@ant-design/icons";
 
 const TOKEN_EXPIRE_TIME = 3 * 60 * 1000;
 
 const Login: React.FC = () => {
 	const [isPureMode, setIsPureMode] = useState(true);
+	const [passwordShown, setPasswordShown] = useState(false);
+
+	const handleTogglePassword = () => {
+    setPasswordShown(!passwordShown);
+  };
 
 	const navigate = useNavigate();
 
@@ -26,7 +32,7 @@ const Login: React.FC = () => {
 				description: 'با موفقیت وارد شدید.',
 				key: "message"
 			});
-			navigate('/dashboard');
+			navigate('/users');
 		} else {
 			Notification({
 				type: "error",
@@ -80,23 +86,30 @@ const Login: React.FC = () => {
 					type="text" 
 					required
 					placeholder="شماره موبایل"
-					pattern='/(^\s*$)|(^09[0-9]{9}$)/'
+					minLength={11}
+					maxLength={11}
 					title= " فرمت شماره همراه وارد شده صحیح نمی باشد"
 					className="rtl"
-      />
-    </StyledWrapper>
-    <StyledWrapper>
-		<StyledLabel>رمز عبور</StyledLabel>
-      <StyledInput 
-				name="password" 
-				type="password" 
-				required
-				placeholder="رمز عبور"
-				pattern=".{5}"
-				title='رمز عبور باید شامل ۵ کاراکتر باشد'
-				className="rtl"
-      />
-    </StyledWrapper>
+        />
+      </StyledWrapper>
+			<StyledWrapper>
+				<StyledLabel>رمز عبور</StyledLabel>
+					<StyledInput 
+						name="password" 
+						type={passwordShown ? "text" : "password"}
+						required
+						placeholder="رمز عبور"
+						minLength={5}
+						maxLength={5}
+						title='رمز عبور باید شامل ۵ کاراکتر باشد'
+						className="rtl"
+					/>
+					<StyledButton
+						onClick={handleTogglePassword}
+					>
+						{passwordShown ? <EyeOutlined /> : 	<EyeInvisibleOutlined />}
+					</StyledButton>
+			</StyledWrapper>
 		</AuthPureForm>
 	);
 

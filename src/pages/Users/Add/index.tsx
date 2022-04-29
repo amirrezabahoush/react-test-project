@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	Button,
 	Form,
 	Input,
 	Modal,
 	Row,
+  Switch,
 } from "antd";
 import { AddUserProps } from "./Add.props";
 
 const AddOrUpdateUser: React.FC<AddUserProps> = (props) => {
+
+  useEffect(() => {
+    console.log(props.form, props.selected)
+    if(props.selected) {
+      props.form.current.setFieldsValue(props.selected);
+    }
+  }, [props.form, props.selected]);
+
   return (
     <Modal
       visible={props.isVisible}
-      title="افزودن کاربر جدید"
+      title={props.type === 'ADD' ? 'افزودن کاربر جدید' : 'ویرایش کاربر'}
       closable
       onCancel={props.handleCancel}
       footer={null}
@@ -38,7 +47,7 @@ const AddOrUpdateUser: React.FC<AddUserProps> = (props) => {
           <Input />
         </Form.Item>
         <Form.Item name="deletable" label="قابلیت حذف">
-          <Input.TextArea rows={4} />
+          <Switch />
         </Form.Item>
         <Row justify="end">
           <Button type="primary" htmlType="submit" data-testid={props.type} loading={false}>

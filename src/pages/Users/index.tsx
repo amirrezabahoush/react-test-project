@@ -43,12 +43,6 @@ const Users: React.FC = () => {
 		handleGetUsers();
 	}, []);
 
-	useEffect(() => {
-		if(selected && form.current) {
-			form.current.setFieldsValue(selected);
-		}
-	}, [form]);
-
 	const handleRemove = async () => {
 		if (selected) {
 			setIsBtnLoading(true);
@@ -74,11 +68,6 @@ const Users: React.FC = () => {
 		}
 	};
 
-	const handleEditModalVisibility = (selected: UserTypes) => {
-		setIsEditModalVisible(true);
-		setSelected(selected);
-	};
-
 	const handleAddUser = async (values: FormValues) => {
 		if(users.length) {
 			setIsLoading(true);
@@ -94,8 +83,29 @@ const Users: React.FC = () => {
 				setUsers(updatedList);
 			} finally {
 				setIsLoading(false);
+				form.current?.resetFields();
 				setIsVisible(false);
-				form.current?.resetFields()();
+			}
+		}
+	};
+
+	const handleEditUser = async (values: FormValues) => {
+		if(users.length && selected) {
+			setIsLoading(true);
+			try {
+				const updatedList: UserTypes[] = [];
+				users.forEach(record => {
+					if(record.id !== selected.id) {
+						updatedList.push(record);
+						return;
+					}
+					updatedList.push({...selected, ...values})
+				});
+				setUsers(updatedList);
+			} finally {
+				setIsLoading(false);
+				form.current?.resetFields();
+				setIsEditModalVisible(false);
 			}
 		}
 	};
@@ -149,15 +159,18 @@ const Users: React.FC = () => {
 					<>
 						<Row justify="center" gutter={4}>
 							<Col xs={12} className="text-right">
-								<Tooltip title="ویرایش">
+								<Tooltip title="ویرایش" placement="bottom">
 									<EditTwoTone
 										data-testid='edit-icon'
-										onClick={() => handleEditModalVisibility(record)}
+										onClick={() => {
+											setSelected(record);
+											setIsEditModalVisible(true);
+										}}
 									/>
 								</Tooltip>
 							</Col>
 							<Col xs={12} className="text-left">
-								<Tooltip title="حذف" data-testid='delete-icon'>
+								<Tooltip title="حذف" placement="bottom" data-testid='delete-icon'>
 									<DeleteTwoTone
 										twoToneColor="#eb2f96" 
 										onClick={() => {
@@ -209,14 +222,16 @@ const Users: React.FC = () => {
 				handleAddOrUpdateUser={handleAddUser}
 				type='ADD'
 				form={form}
+				selected={selected}
 			/>
 
 			<AddOrUpdateUser 
 				isVisible={isEditModalVisible}
 				handleCancel={handleCancelEdit}
-				handleAddOrUpdateUser={handleAddUser}
+				handleAddOrUpdateUser={handleEditUser}
 				type='EDIT'
 				form={form}
+				selected={selected}
 			/>
 
 			<DeleteUser 

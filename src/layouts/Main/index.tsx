@@ -50,15 +50,15 @@ const MainLayout: React.FC = () => {
 				<Header>
 					<Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
 						<Tooltip placement="bottom" arrowPointAtCenter title={`${user?.firstName} ${user?.lastName} خوش آمدید`}>
-							<Menu.Item key="0">
+							<Menu.Item>
 								<UserOutlined />
 							</Menu.Item>
 						</Tooltip>
-						<Menu.Item key="1">
-							<NavLink to={"/dashboard"}>داشبورد</NavLink>
+						<Menu.Item key="1" className="menuItem" onClick={() => navigate('/users')}>
+							کاربران
 						</Menu.Item>
-						<Menu.Item key="2">
-							<NavLink to={"/profile"}>پروفایل</NavLink>
+						<Menu.Item key="2" className="menuItem" onClick={() => navigate('/profile')}>
+							پروفایل
 						</Menu.Item>
 						<Menu.Item key="4" onClick={handleLogout}>خروج</Menu.Item>
 					</Menu>

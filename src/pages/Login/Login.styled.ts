@@ -1,7 +1,8 @@
 import styled, { css } from "styled-components";
 export const StyledWrapper = styled.div`
-margin-bottom:24px;
-display:block;
+  margin-bottom:24px;
+  display:block;
+  position: relative;
 `;
 
 export const StyledLabel = styled.label`
@@ -37,4 +38,12 @@ export const StyledInput = styled.input`
     transition: all 0.3s;
     padding: 6.5px 11px;
     font-size: 16px;
+`;
+
+export const StyledButton = styled.span`
+    all: unset;
+    position: absolute;
+    left: 11px;
+    bottom: 5%;
+    cursor: pointer;
 `;

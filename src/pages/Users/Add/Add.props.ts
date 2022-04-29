@@ -1,6 +1,6 @@
 import { FormInstance } from "antd";
 import { Ref } from "react";
-import { FormValues } from "../Users.types";
+import { FormValues, UserTypes } from "../Users.types";
 
 export type AddUserProps = {
   isVisible: boolean;
@@ -8,4 +8,5 @@ export type AddUserProps = {
   handleAddOrUpdateUser: (values: FormValues) => void;
   form: Ref<FormInstance> | any;
   type: "ADD" | "EDIT";
+  selected?: UserTypes;
 };

@@ -35,7 +35,7 @@ const Profile: React.FC = () => {
 	]
 
 	return (
-		<StyledCard
+			<StyledCard
 			title={
 				<Typography.Title level={4} className="text-center">
 					اطلاعات کاربر
