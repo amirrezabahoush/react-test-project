@@ -186,6 +186,14 @@ i {
 .text-center {
   text-align: center;
 }
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
 
 .bold {
   font-weight: bold;
@@ -226,4 +234,15 @@ i {
   top: 10%;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.ant-table{
+  .ant-table-tbody{
+    .ant-table-row:nth-child(even){
+      background: #ffffff;
+    }
+    .ant-table-row:nth-child(odd){
+      background: #f7f7f7;
+    }
+  }
 }

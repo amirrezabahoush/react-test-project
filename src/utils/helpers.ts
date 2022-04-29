@@ -6,10 +6,10 @@ export const sleep = (milliseconds: number) => {
 	} while (currentDate - date < milliseconds);
 };
 
-export const setCookie = (cName: string, cValue: string, expDays: number) => {
-	let date = new Date();
-	date.setTime(date.getTime() + expDays * 24 * 60 * 60 * 1000);
-	const expires = "expires=" + date.toUTCString();
+export const setCookie = (cName: string, cValue: string, expireTime: number) => {
+	const currentTimestamp = new Date().getTime();
+	const expireDate = new Date(currentTimestamp + expireTime).toUTCString();
+	const expires = "expires=" + expireDate;
 	document.cookie = `cName=${cValue};${expires};`;
 };
 

@@ -3,25 +3,28 @@ import { StyledCard } from "pages/Profile/profile.styled";
 import {
 	Button,
 	Col,
-	Form,
 	FormInstance,
-	Input,
-	Modal,
 	Row,
 	Table,
+	Tooltip,
 	Typography,
 } from "antd";
 import { FormValues, UserTypes } from "./Users.types";
-// import Notification from "components/Notification";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import { getUsers } from "services/Users";
 import { PromiseResolveTypes } from "services/types";
+import { dateToPersian } from "utils/helpers";
+import AddOrUpdateUser from "./Add";
+import Notification from "components/Notification";
+import DeleteUser from "./Delete";
 
 const Dashboard: React.FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
-	const [users, setUsers] = useState([]);
+	const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+	const [users, setUsers] = useState<UserTypes[]>([]);
 	const [isRemoveModalVisible, setIsRemoveModalVisible] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isBtnLoading, setIsBtnLoading] = useState(false);
 	const [selected, setSelected] = useState<UserTypes>();
 	const form = useRef<FormInstance<FormValues> | any>();
 
@@ -40,22 +43,69 @@ const Dashboard: React.FC = () => {
 		handleGetUsers();
 	}, []);
 
-	const onRemove = async () => {
+	useEffect(() => {
+		if(selected && form.current) {
+			form.current.setFieldsValue(selected);
+		}
+	}, [form]);
+
+	const handleRemove = async () => {
 		if (selected) {
-			setIsLoading(true);
+			setIsBtnLoading(true);
 			try {
-				// const response = await removeTicket(selected.appUserSuggestionId);
-				// const notificationProps = {
-				// 	type: "success",
-				// 	description: response.data.message,
-				// 	key: "message",
-				// };
-				// response.status === 200 && Notification(notificationProps);
-				// onGetTickets();
+				const updatedList: UserTypes[] = [];
+				users.forEach(record => {
+					if(record.id !== selected.id) {
+						updatedList.push(record);
+						return;
+					}
+					updatedList.push({...selected, isDeleted: true})
+				});
+				setUsers(updatedList);
+				Notification({
+					type: "success",
+					description: 'کاربر با موفقیت حذف شد.',
+					key: "message",
+				});
+				setIsRemoveModalVisible(false);
 			} finally {
-				setIsLoading(false);
+				setIsBtnLoading(false);
 			}
 		}
+	};
+
+	const handleEditModalVisibility = (selected: UserTypes) => {
+		setIsEditModalVisible(true);
+		setSelected(selected);
+	};
+
+	const handleAddUser = async (values: FormValues) => {
+		if(users.length) {
+			setIsLoading(true);
+			try {
+				const updatedList = [
+					...users, 
+					{
+						...values, 
+						creationDate: `${new Date()}`, 
+						id: users.at(-1)?.id as number + 1
+					}
+				];
+				setUsers(updatedList);
+			} finally {
+				setIsLoading(false);
+				setIsVisible(false);
+				form.current?.resetFields()();
+			}
+		}
+	};
+
+	const handleCancelAdd = () => {
+		setIsVisible(false);
+	};
+
+	const handleCancelEdit = () => {
+		setIsEditModalVisible(false);
 	};
 
 	const columns = [
@@ -78,6 +128,7 @@ const Dashboard: React.FC = () => {
 			key: "creationDate",
 			dataIndex: "creationDate",
 			title: "تاریخ ایجاد",
+			render: (item: string) => dateToPersian(item)
 		},
 		{
 			key: "nationalCode",
@@ -92,17 +143,29 @@ const Dashboard: React.FC = () => {
 		{
 			key: "action",
 			title: "عملیات",
+			width:100,
 			render: (item: UserTypes[], record: UserTypes) => {
 				return (
 					<>
 						<Row justify="center" gutter={4}>
-							<Col xs={24}>
-								<DeleteOutlined
-									onClick={() => {
-										setSelected(record);
-										setIsRemoveModalVisible(true);
-									}}
-								/>
+							<Col xs={12} className="text-right">
+								<Tooltip title="ویرایش">
+									<EditTwoTone
+										onClick={() => handleEditModalVisibility(record)}
+									/>
+								</Tooltip>
+							</Col>
+							<Col xs={12} className="text-left">
+								<Tooltip title="حذف">
+									<DeleteTwoTone 
+										twoToneColor="#eb2f96" 
+										onClick={() => {
+											setSelected(record);
+											setIsRemoveModalVisible(true);
+										}}
+									/>	
+								</Tooltip>
+							
 							</Col>
 						</Row>
 					</>
@@ -110,28 +173,6 @@ const Dashboard: React.FC = () => {
 			},
 		},
 	];
-
-	const onSubmit = async (values: FormValues) => {
-		setIsLoading(true);
-		try {
-			// const response = await addTicket(values);
-			// const notificationProps = {
-			// 	type: "success",
-			// 	description: response.data.message,
-			// 	key: "message",
-			// };
-			// response.status === 200 && Notification(notificationProps);
-			// onGetTickets();
-		} finally {
-			setIsLoading(false);
-			setIsVisible(false);
-			form.current?.resetFields()();
-		}
-	};
-
-	const handleCancel = () => {
-		setIsVisible(false);
-	};
 
 	return (
 		<StyledCard>
@@ -154,71 +195,35 @@ const Dashboard: React.FC = () => {
 
 			<Table
 				columns={columns}
-				dataSource={users}
+				dataSource={users.filter(item => !item.isDeleted)}
 				scroll={{ x: 500 }}
 				loading={isLoading}
+				rowKey={row => row.id}
 			/>
-			<Modal
-				visible={isVisible}
-				title="افزودن کاربر جدید"
-				closable
-				onCancel={handleCancel}
-				footer={null}
-			>
-				<Form
-					className="form-wrapper"
-					onFinish={onSubmit}
-					labelCol={{ span: 24 }}
-					wrapperCol={{ span: 24 }}
-					ref={form}
-				>
-					<Form.Item name="addressLink" label="آدرس لینک">
-						<Input />
-					</Form.Item>
-					<Form.Item name="message" label="پیام">
-						<Input.TextArea rows={4} />
-					</Form.Item>
-					<Row justify="end">
-						<Button type="primary" htmlType="submit" loading={isLoading}>
-							ثبت تیکت
-						</Button>
-					</Row>
-				</Form>
-			</Modal>
 
-			<Modal
-				visible={isRemoveModalVisible}
-				onCancel={() => setIsRemoveModalVisible(false)}
-				title="حذف تیکت"
-				closable
-				footer={null}
-			>
-				<Row className="mb-1">
-					<Col xs={25}>
-						{/* آیا از حذف تیکت با id {selected?.appUserSuggestionId} مطمئن هستید؟ */}
-					</Col>
-				</Row>
-				<Row justify="end">
-					<Button
-						type="primary"
-						htmlType="submit"
-						loading={isLoading}
-						onClick={onRemove}
-						className="ml-1"
-					>
-						حذف تیکت
-					</Button>
-					<Button
-						type="primary"
-						htmlType="submit"
-						danger
-						onClick={() => setIsRemoveModalVisible(false)}
-						className="mr-1"
-					>
-						انصراف
-					</Button>
-				</Row>
-			</Modal>
+			<AddOrUpdateUser 
+				handleAddUser={handleAddUser}
+				handleCancel={handleCancelAdd}
+				isVisible={isVisible}
+				form={form}
+				type='ADD'
+			/>
+
+			<AddOrUpdateUser 
+				handleAddUser={handleAddUser}
+				handleCancel={handleCancelEdit}
+				isVisible={isEditModalVisible}
+				form={form}
+				type='EDIT'
+			/>
+
+			<DeleteUser 
+				isRemoveModalVisible={isRemoveModalVisible}
+				setIsRemoveModalVisible={setIsRemoveModalVisible}
+				handleRemove={handleRemove}
+				selected={selected}
+				isLoading={isBtnLoading}
+			/>
 		</StyledCard>
 	);
 };

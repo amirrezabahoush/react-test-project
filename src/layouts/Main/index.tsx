@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu,Tooltip } from "antd";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { StyledContent } from "./Main.styled";
 import { UserProvider } from "context/userContext";
 import { UserTypes } from "pages/Users/Users.types";
+import useInterval from "hooks/useInterval";
+import { UserOutlined } from "@ant-design/icons";
 
 const { Header, Footer } = Layout;
 
@@ -11,6 +13,13 @@ const MainLayout: React.FC = () => {
 	const [user, setUser] = useState<UserTypes | undefined>();
 	const navigate = useNavigate();
 	const token = localStorage.getItem('token') as string;
+
+	useInterval(() => {
+    const hasToken = document.cookie.includes('cName');
+		if(!hasToken) {
+			handleLogout();
+		}
+  }, 10 * 1000);
 
 	useEffect(() => {
 		if(!token) {
@@ -26,18 +35,25 @@ const MainLayout: React.FC = () => {
 			}
 		});
 		setUser(userDetails as UserTypes);
-	}, [token])
+	}, [token]);
 
 	const handleLogout = () => {
+		document.cookie = '';
 		localStorage.clear();
 		navigate('/');
 	}
+	
 	
 	return (
 		<UserProvider value={user}>
 			<Layout className="layout">
 				<Header>
 					<Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
+						<Tooltip placement="bottom" arrowPointAtCenter title={`${user?.firstName} ${user?.lastName} خوش آمدید`}>
+							<Menu.Item key="0">
+								<UserOutlined />
+							</Menu.Item>
+						</Tooltip>
 						<Menu.Item key="1">
 							<NavLink to={"/dashboard"}>داشبورد</NavLink>
 						</Menu.Item>

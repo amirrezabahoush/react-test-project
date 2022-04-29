@@ -7,6 +7,8 @@ export type FormValues = {
   nationalCode: string;
   phoneNumber: string;
   role: UserRoleTypes;
+  deletable: boolean;
+  isDeleted: boolean;
 };
 
 export type UserTypes = FormValues & {

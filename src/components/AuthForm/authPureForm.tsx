@@ -16,6 +16,7 @@ const AuthPureForm: React.FC<{
 				name="basic"
 				autoComplete="off"
 				className="form-wrapper"
+				onSubmit={props.onFinish}
 			>
 				{props.children}
 				<div className="text-center">
