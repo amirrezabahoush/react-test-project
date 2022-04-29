@@ -5,7 +5,7 @@ import { FormValues } from "../Users.types";
 export type AddUserProps = {
   isVisible: boolean;
   handleCancel: () => void;
-  handleAddUser: (values: FormValues) => void;
-  form: Ref<FormInstance>;
+  handleAddOrUpdateUser: (values: FormValues) => void;
+  form: Ref<FormInstance> | any;
   type: "ADD" | "EDIT";
 };

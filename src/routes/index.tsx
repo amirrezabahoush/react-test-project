@@ -1,6 +1,6 @@
 import MainLayout from 'layouts/Main';
 import AuthLayout from 'layouts/Auth';
-import Login from 'pages/Auth/Login';
+import Login from 'pages/Login';
 import Dashboard from 'pages/Users';
 import Profile from 'pages/Profile';
 

@@ -16,7 +16,7 @@ const DeleteUser: React.FC<DeleteUserProps> = (props) => {
     closable
     footer={null}
   >
-    <Row className="mb-1">
+    <Row className="mb-1" data-testid='delete-modal'>
       <Col xs={25}>
         آیا از حذف کاربر {props.selected?.firstName} {props.selected?.lastName} مطمئن هستید؟
       </Col>
@@ -29,14 +29,16 @@ const DeleteUser: React.FC<DeleteUserProps> = (props) => {
         loading={props.isLoading}
         onClick={props.handleRemove}
         className="ml-1"
+        data-testid='delete-submit-button'
       >
-        حذف تیکت
+        حذف کاربر
       </Button>
       <Button
         type="default"
         htmlType="submit"
         onClick={() => props.setIsRemoveModalVisible(false)}
         className="mr-1"
+        data-testid='delete-cancel-button'
       >
         انصراف
       </Button>

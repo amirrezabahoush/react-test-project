@@ -1,6 +1,4 @@
-import { FormInstance } from "antd";
-import { Ref } from "react";
-import { FormValues, UserTypes } from "../Users.types";
+import { UserTypes } from "../Users.types";
 
 export type DeleteUserProps = {
   isRemoveModalVisible: boolean;

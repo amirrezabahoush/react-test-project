@@ -18,7 +18,7 @@ import AddOrUpdateUser from "./Add";
 import Notification from "components/Notification";
 import DeleteUser from "./Delete";
 
-const Dashboard: React.FC = () => {
+const Users: React.FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 	const [users, setUsers] = useState<UserTypes[]>([]);
@@ -151,13 +151,14 @@ const Dashboard: React.FC = () => {
 							<Col xs={12} className="text-right">
 								<Tooltip title="ویرایش">
 									<EditTwoTone
+										data-testid='edit-icon'
 										onClick={() => handleEditModalVisibility(record)}
 									/>
 								</Tooltip>
 							</Col>
 							<Col xs={12} className="text-left">
-								<Tooltip title="حذف">
-									<DeleteTwoTone 
+								<Tooltip title="حذف" data-testid='delete-icon'>
+									<DeleteTwoTone
 										twoToneColor="#eb2f96" 
 										onClick={() => {
 											setSelected(record);
@@ -199,22 +200,23 @@ const Dashboard: React.FC = () => {
 				scroll={{ x: 500 }}
 				loading={isLoading}
 				rowKey={row => row.id}
+				rowClassName='row'
 			/>
 
 			<AddOrUpdateUser 
-				handleAddUser={handleAddUser}
-				handleCancel={handleCancelAdd}
 				isVisible={isVisible}
-				form={form}
+				handleCancel={handleCancelAdd}
+				handleAddOrUpdateUser={handleAddUser}
 				type='ADD'
+				form={form}
 			/>
 
 			<AddOrUpdateUser 
-				handleAddUser={handleAddUser}
-				handleCancel={handleCancelEdit}
 				isVisible={isEditModalVisible}
-				form={form}
+				handleCancel={handleCancelEdit}
+				handleAddOrUpdateUser={handleAddUser}
 				type='EDIT'
+				form={form}
 			/>
 
 			<DeleteUser 
@@ -228,4 +230,4 @@ const Dashboard: React.FC = () => {
 	);
 };
 
-export default Dashboard;
+export default Users;

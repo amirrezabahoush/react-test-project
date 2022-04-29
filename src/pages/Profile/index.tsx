@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Typography, Row, Col, List } from "antd";
+import { Typography, List } from "antd";
 import { StyledCard } from "./profile.styled";
 import UserContext from "context/userContext";
 import { USER_ROLES_PERSIAN } from "types/User";
@@ -45,7 +45,7 @@ const Profile: React.FC = () => {
 		>
 			<List>
 				{data.map(item =>
-					<List.Item>
+					<List.Item data-testid='list-item'>
 						<Typography.Text className="bold">{item.name}</Typography.Text>
 						<Typography.Text>{item.value}</Typography.Text>
 					</List.Item>

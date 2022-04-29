@@ -18,14 +18,15 @@ const AddOrUpdateUser: React.FC<AddUserProps> = (props) => {
       footer={null}
     >
       <Form
+        data-testid='add-or-update'
         className="form-wrapper"
-        onFinish={props.handleAddUser}
+        onFinish={props.handleAddOrUpdateUser}
         labelCol={{ span: 12 }}
         wrapperCol={{ span: 12 }}
         ref={props.form}
       >
         <Form.Item name="firstName" label="نام">
-          <Input />
+          <Input data-testid='firstName' />
         </Form.Item>
         <Form.Item name="lastName" label="نام خانوادگی">
           <Input />
@@ -40,8 +41,8 @@ const AddOrUpdateUser: React.FC<AddUserProps> = (props) => {
           <Input.TextArea rows={4} />
         </Form.Item>
         <Row justify="end">
-          <Button type="primary" htmlType="submit" loading={false}>
-            افزودن
+          <Button type="primary" htmlType="submit" data-testid={props.type} loading={false}>
+            {props.type === 'EDIT' ? 'ویرایش' : 'افزودن'}
           </Button>
         </Row>
       </Form>

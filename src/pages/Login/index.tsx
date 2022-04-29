@@ -3,9 +3,9 @@ import { Form, Input } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import Notification from "components/Notification";
 import { LoginValues } from "./Login.props";
-import AuthForm from "components/AuthForm";
-import AuthPureForm from "components/AuthForm/authPureForm";
-import { StyledWrapper,StyledLabel,StyledInput} from "./PureForm.styled";
+import AuthForm from "components/AuthForm/AntdForm";
+import AuthPureForm from "components/AuthForm/PureForm";
+import { StyledWrapper,StyledLabel,StyledInput} from "./Login.styled";
 import { setCookie } from "utils/helpers";
 import { Switch } from "antd";
 
@@ -23,14 +23,14 @@ const Login: React.FC = () => {
 			setCookie('token', encodedToken, TOKEN_EXPIRE_TIME);
 			Notification({
 				type: "success",
-				description: 'با موفقیت وارد شدید',
+				description: 'با موفقیت وارد شدید.',
 				key: "message"
 			});
 			navigate('/dashboard');
 		} else {
 			Notification({
-				type: "success",
-				description: 'با موفقیت وارد شدید',
+				type: "error",
+				description: 'نام کاربری یا رمز عبور اشتباه است.',
 				key: "message"
 			});
 		}
@@ -68,7 +68,6 @@ const Login: React.FC = () => {
 			>
 				<Input.Password autoComplete="off"/>
 			</Form.Item>
-			حساب کاربری ندارید؟ <NavLink to="/signup">ثبت نام کنید</NavLink>
 		</AuthForm>
 	);
 
@@ -77,13 +76,13 @@ const Login: React.FC = () => {
 			<StyledWrapper>
 				<StyledLabel>شماره موبایل</StyledLabel>
 				<StyledInput 
-				name="phoneNumber" 
-				type="text" 
-				required
-				placeholder="شماره موبایل"
-				// pattern={/(^\s*$)|(^09[0-9]{9}$)/}
-				title= " فرمت شماره همراه وارد شده صحیح نمی باشد"
-				className="rtl"
+					name="phoneNumber" 
+					type="text" 
+					required
+					placeholder="شماره موبایل"
+					pattern='/(^\s*$)|(^09[0-9]{9}$)/'
+					title= " فرمت شماره همراه وارد شده صحیح نمی باشد"
+					className="rtl"
       />
     </StyledWrapper>
     <StyledWrapper>
@@ -98,19 +97,19 @@ const Login: React.FC = () => {
 				className="rtl"
       />
     </StyledWrapper>
-    حساب کاربری ندارید؟ <NavLink to="/signup">ثبت نام کنید</NavLink>
 		</AuthPureForm>
 	);
 
 	return (
-	<>{isPureMode ? renderAntdForm() : renderPureForm()}
-		<Switch 
-			checkedChildren='antd' 
-			unCheckedChildren='pure' 
-			className='component-switcher'
-			checked={isPureMode}
-			onChange={e => setIsPureMode(e)}
-		/> 
+		<>
+			{isPureMode ? renderAntdForm() : renderPureForm()}
+			<Switch 
+				checkedChildren='antd' 
+				unCheckedChildren='pure' 
+				className='component-switcher'
+				checked={isPureMode}
+				onChange={e => setIsPureMode(e)}
+			/> 
 		</>
 	)
 
